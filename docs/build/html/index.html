@@ -1,0 +1,312 @@
+
+<!DOCTYPE html>
+
+<html lang="">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Welcome to Mr.Lan Lab3’s documentation! &#8212; Mr.Lan Lab3 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="welcome-to-mr-lan-lab3-s-documentation">
+<h1>Welcome to Mr.Lan Lab3’s documentation!<a class="headerlink" href="#welcome-to-mr-lan-lab3-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p><strong>小组成员</strong></p>
+<p>夏金明 - 201832110145 - <a class="reference external" href="mailto:736001469&#37;&#52;&#48;qq&#46;com">736001469<span>&#64;</span>qq<span>&#46;</span>com</a></p>
+<p>邱政淞 - 201932110132 - <a class="reference external" href="mailto:1712590429&#37;&#52;&#48;qq&#46;com">1712590429<span>&#64;</span>qq<span>&#46;</span>com</a></p>
+<p>方世玉 - 201932110117 - <a class="reference external" href="mailto:874524395&#37;&#52;&#48;qq&#46;com">874524395<span>&#64;</span>qq<span>&#46;</span>com</a></p>
+<p><strong>项目GitHub地址</strong>: <a class="reference external" href="https://github.com/reallyQ/Lab3">ORM</a>.</p>
+</section>
+<section id="abstract">
+<h1>Abstract<a class="headerlink" href="#abstract" title="Permalink to this headline">¶</a></h1>
+<p>1 Dependency inversion.</p>
+<p>2 Map a class to a database table using SQLAlchemy’s ORM</p>
+<p>3 Test-driven development (TDD).</p>
+</section>
+<section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>Understand dependency inversion.</p>
+<p>Map a class to a database table using SQLAlchemy’s ORM (object-relational mapper).</p>
+<p>Implement a service layer for a user to read an article.</p>
+<p>Practice Test-driven development (TDD).</p>
+<p>Complete orm.py and services.py such that running the following command could make all the five test cases defined in test services.py</p>
+<p>pass: pytest -v -s test services.py.</p>
+</section>
+<section id="methods-and-materials">
+<h1>Methods and materials<a class="headerlink" href="#methods-and-materials" title="Permalink to this headline">¶</a></h1>
+<p>python 3.7.3</p>
+<p>orm.py   model.py repository.py  services.py    conftest.py    test services.py</p>
+</section>
+<section id="code">
+<h1>code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h1>
+<p><strong>model.py</strong>      add a class , called <strong>Reading</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Software Architecture and Design Patterns -- Lab 3 starter code</span>
+<span class="c1"># Copyright (C) 2021 Hui Lan</span>
+
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Article</span><span class="p">:</span>
+   <span class="n">article_id</span><span class="p">:</span><span class="nb">int</span>
+   <span class="n">text</span><span class="p">:</span><span class="nb">str</span>
+   <span class="n">source</span><span class="p">:</span><span class="nb">str</span>
+   <span class="n">date</span><span class="p">:</span><span class="nb">str</span>
+   <span class="n">level</span><span class="p">:</span><span class="nb">int</span>
+   <span class="n">question</span><span class="p">:</span><span class="nb">str</span>
+
+<span class="k">class</span> <span class="nc">Reading</span><span class="p">:</span>
+   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">article_id</span><span class="p">):</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">article_id</span> <span class="o">=</span> <span class="n">article_id</span>
+
+
+<span class="k">class</span> <span class="nc">NewWord</span><span class="p">:</span>
+   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">word</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="s1">&#39;yyyy-mm-dd&#39;</span><span class="p">):</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">word</span> <span class="o">=</span> <span class="n">word</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">date</span>
+
+
+<span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
+   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;12345&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s1">&#39;2021-05-19&#39;</span><span class="p">,</span> <span class="n">expiry_date</span><span class="o">=</span><span class="s1">&#39;2031-05-19&#39;</span><span class="p">):</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">password</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">start_date</span> <span class="o">=</span> <span class="n">start_date</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">expiry_date</span> <span class="o">=</span> <span class="n">expiry_date</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_read</span> <span class="o">=</span> <span class="p">[]</span>
+
+   <span class="k">def</span> <span class="nf">read_article</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">article</span><span class="p">):</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">article</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">article</span><span class="o">.</span><span class="n">article_id</span>
+</pre></div>
+</div>
+<p><strong>orm.py</strong>     Map the database</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Software Architecture and Design Patterns -- Lab 3 starter code</span>
+<span class="c1"># Copyright (C) 2021 Hui Lan</span>
+
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">MetaData</span><span class="p">,</span> <span class="n">Column</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">Date</span><span class="p">,</span> <span class="n">ForeignKey</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">mapper</span><span class="p">,</span> <span class="n">relationship</span>
+
+<span class="kn">import</span> <span class="nn">model</span>
+
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">MetaData</span><span class="p">,</span> <span class="n">Column</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">Date</span><span class="p">,</span> <span class="n">ForeignKey</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">mapper</span><span class="p">,</span> <span class="n">relationship</span><span class="p">,</span> <span class="n">sessionmaker</span><span class="p">,</span> <span class="n">clear_mappers</span>
+
+<span class="n">metadata</span> <span class="o">=</span> <span class="n">MetaData</span><span class="p">()</span>
+
+<span class="n">articles</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span>
+   <span class="s1">&#39;articles&#39;</span><span class="p">,</span>
+   <span class="n">metadata</span><span class="p">,</span>
+   <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;article_id&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">autoincrement</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+   <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">10000</span><span class="p">)),</span>
+   <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;source&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">100</span><span class="p">)),</span>
+   <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">10</span><span class="p">)),</span>
+   <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;level&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+   <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;question&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">1000</span><span class="p">)),</span>
+   <span class="p">)</span>
+
+
+<span class="n">users</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span>
+   <span class="s1">&#39;users&#39;</span><span class="p">,</span>
+   <span class="n">metadata</span><span class="p">,</span>
+   <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+   <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">64</span><span class="p">)),</span>
+   <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;start_date&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+   <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;expiry_date&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+   <span class="p">)</span>
+
+<span class="n">newwords</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span>
+   <span class="s1">&#39;newwords&#39;</span><span class="p">,</span>
+   <span class="n">metadata</span><span class="p">,</span>
+   <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;word_id&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">autoincrement</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+   <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;users.username&#39;</span><span class="p">)),</span>
+   <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">20</span><span class="p">)),</span>
+   <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">10</span><span class="p">)),</span>
+   <span class="p">)</span>
+
+<span class="n">readings</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span>
+   <span class="s1">&#39;readings&#39;</span><span class="p">,</span>
+   <span class="n">metadata</span><span class="p">,</span>
+   <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">autoincrement</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+   <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;users.username&#39;</span><span class="p">)),</span>
+   <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;article_id&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;articles.article_id&#39;</span><span class="p">)),</span>
+   <span class="p">)</span>
+
+<span class="c1"># map model&#39;s classes to database tables</span>
+<span class="k">def</span> <span class="nf">start_mappers</span><span class="p">():</span>
+   <span class="n">metadata</span><span class="o">.</span><span class="n">create_all</span><span class="p">(</span><span class="n">create_engine</span><span class="p">(</span><span class="s1">&#39;sqlite:///EnglishPalDatabase.db&#39;</span><span class="p">))</span>
+   <span class="n">mapper</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">User</span><span class="p">,</span> <span class="n">users</span><span class="p">)</span>
+   <span class="n">mapper</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">NewWord</span><span class="p">,</span> <span class="n">newwords</span><span class="p">)</span>
+   <span class="n">mapper</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Article</span><span class="p">,</span> <span class="n">articles</span><span class="p">)</span>
+   <span class="n">mapper</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Reading</span><span class="p">,</span> <span class="n">readings</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>services.py</strong>  service Layer</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Software Architecture and Design Patterns -- Lab 3 starter code</span>
+<span class="c1"># An implementation of the Service Layer</span>
+<span class="c1"># Copyright (C) 2021 Hui Lan</span>
+
+
+<span class="c1"># word and its difficulty level</span>
+<span class="n">WORD_DIFFICULTY_LEVEL</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;starbucks&#39;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;luckin&#39;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;secondcup&#39;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;costa&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;timhortons&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;frappuccino&#39;</span><span class="p">:</span><span class="mi">6</span><span class="p">}</span>
+
+
+<span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">model</span>
+
+<span class="c1"># two custom exception classes</span>
+<span class="k">class</span> <span class="nc">UnknownUser</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+   <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">NoArticleMatched</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+   <span class="k">pass</span>
+
+<span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">user_repo</span><span class="p">,</span> <span class="n">article_repo</span><span class="p">,</span> <span class="n">session</span><span class="p">):</span>
+
+   <span class="c1">#接受信息</span>
+   <span class="n">u</span> <span class="o">=</span> <span class="n">user_repo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">)</span>
+
+   <span class="c1"># 判断用户密码是否正确</span>
+   <span class="k">if</span> <span class="n">u</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">u</span><span class="o">.</span><span class="n">password</span> <span class="o">!=</span> <span class="n">user</span><span class="o">.</span><span class="n">password</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="n">UnknownUser</span><span class="p">()</span>
+
+   <span class="c1"># 搜索 用户表中的 生词</span>
+   <span class="n">words</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+      <span class="s1">&#39;SELECT word FROM newwords WHERE username=:username&#39;</span><span class="p">,</span>
+      <span class="nb">dict</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">),</span>
+   <span class="p">)</span>
+
+   <span class="c1"># 计算用户生词水平</span>
+   <span class="nb">sum</span> <span class="o">=</span> <span class="mi">0</span>
+   <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+   <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+      <span class="nb">sum</span> <span class="o">+=</span> <span class="n">WORD_DIFFICULTY_LEVEL</span><span class="p">[</span><span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+      <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+   <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+
+   <span class="n">average</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">sum</span> <span class="o">/</span> <span class="n">count</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+   <span class="k">if</span> <span class="n">average</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+      <span class="n">average</span> <span class="o">=</span> <span class="mi">3</span>
+
+
+   <span class="c1"># 获取文章</span>
+   <span class="n">articles</span> <span class="o">=</span> <span class="n">article_repo</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+   <span class="k">if</span> <span class="n">articles</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="n">NoArticleMatched</span><span class="p">()</span>
+
+
+
+   <span class="c1"># 根据用户生词水平推荐文章</span>
+   <span class="k">for</span> <span class="n">article</span> <span class="ow">in</span> <span class="n">articles</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">average</span> <span class="o">==</span> <span class="n">article</span><span class="o">.</span><span class="n">level</span><span class="p">:</span>
+            <span class="n">article_id</span>  <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">read_article</span><span class="p">(</span><span class="n">article</span><span class="p">)</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Reading</span><span class="p">(</span><span class="n">username</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="n">article_id</span> <span class="o">=</span> <span class="n">article_id</span><span class="p">))</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">article_id</span>
+
+   <span class="k">raise</span> <span class="n">NoArticleMatched</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<p>[1] Day 3 - 编写ORM - 廖雪峰的官方网站 <a class="reference external" href="https://www.liaoxuefeng.com/wiki/1016959663602400/1018490605531840">https://www.liaoxuefeng.com/wiki/1016959663602400/1018490605531840</a></p>
+<p>[2] Python Dependency Inversion Principle <a class="reference external" href="https://www.pythontutorial.net/python-oop/python-dependency-inversion-principle/">https://www.pythontutorial.net/python-oop/python-dependency-inversion-principle/</a></p>
+<p>[3] 测试驱动开发- 维基百科，自由的百科全书 <a class="reference external" href="https://zh.wikipedia.org/wiki/%E6%B5%8B%E8%AF%95%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91">https://zh.wikipedia.org/wiki/%E6%B5%8B%E8%AF%95%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91</a></p>
+<p>[2] started-with-sphinx <a class="reference external" href="https://docs.readthedocs.io/en/stable/intro/getting-started-with-sphinx.html">https://docs.readthedocs.io/en/stable/intro/getting-started-with-sphinx.html</a></p>
+<p>[3] Read the docs 环境搭建  <a class="reference external" href="https://blog.csdn.net/u010386121/article/details/83274964?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522163957890116780274182682%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&amp;request_id=163957890116780274182682&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-9-83274964.pc_search_insert_es_download&amp;utm_term=read+the+docs">https://blog.csdn.net/u010386121/article/details/83274964?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522163957890116780274182682%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&amp;request_id=163957890116780274182682&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-9-83274964.pc_search_insert_es_download&amp;utm_term=read+the+docs</a></p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">Mr.Lan Lab3</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Xia.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -52,7 +52,7 @@ readings = Table(
 
 # map model's classes to database tables
 def start_mappers():
-    metadata.create_all(create_engine('sqlite:///E:\\Desktop\\学校\\三上\\软件体系结构\\lab3\\test.db'))
+    metadata.create_all(create_engine('sqlite:///EnglishPalDatabase.db'))
     mapper(model.User, users)
     mapper(model.NewWord, newwords)
     mapper(model.Article, articles)
